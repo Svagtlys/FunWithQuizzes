@@ -1,0 +1,73 @@
+First, the questions. We want to be able to handle multiple types of questions:
+
+Multiple choice: a question with a fixed set of possible answers, of which only one may be chosen and only one answer is correct
+Checkbox: a question with a fixed set of possible answers, of which any number may be chosen; there is one correct combination of choices
+True/False: a question that has a true/false answer
+
+What do these types of questions have in common?
+    The question
+    The options
+    The correct answer (array, all in array must be chosen to be correct, is usually array size 1)
+    The user's answer (array, is usually max array size 1)
+What makes these question types different?
+    Multiple Choice
+        CorrectAnswer array size 1
+        UserAnswer array size 1
+
+    Checkbox
+        CorrectAnswer array size greater than 1
+        UserAnswer array size equal to CorrectAnswer array size, but will accept less (less will be graded as incorrect)
+
+    True/False (can extend multiple choice)
+        Options are fixed (True, False)
+        CorrectAnswer array size 1
+        UserAnswer array size 1
+
+abstract Question{
+    protected String question
+    protected String[] options
+    protected String[] correctAnswer
+    protected String[] userAnswer
+
+    Question(String question, String[] options, String[] correctAnswer){
+        this.question = question;
+        this.options = options;
+        this.correctAnswer = correctAnswer;
+        this.userAnswer = new String[correctAnswer.length];
+    }
+
+    public String checkAnswer(){
+        //compare correctAnswer and userAnswer: if lengths differ, incorrect. if answers different, incorrect
+        //(len > 1, userAnswer may be out of order but correct). else correct
+    }
+
+    public String toString(){
+
+    }
+
+}
+
+Checkbox extends Question{
+
+    Checkbox(String question, String[] options, String[] correctAnswer){
+
+    }
+
+}
+
+MultipleChoice extends Question{
+
+    MultipleChoice(String question, String[] options, String correctAnswer){
+        super(question, options, new String[]{correctAnswer});
+    }
+}
+
+TrueOrFalse extends MultipleChoice{
+
+    private Static String[] onlyOptions = new String[]{"True", "False"};
+
+    TrueOrFalse(String question, String correctAnswer){
+        //check if correctAnswer is either true or false, otherwise default correctAnswer to false
+        super(question, onlyOptions, correctAnswer);
+    }
+}
